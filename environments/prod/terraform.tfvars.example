@@ -1,0 +1,10 @@
+# ==========================================
+# Variables de Producción (Prod)
+# Copia este archivo como 'terraform.tfvars' en environments/prod/
+# ==========================================
+
+aws_region         = "eu-west-1"
+environment        = "prod"
+instance_type      = "t3.small"
+key_name           = "tu-clave-ssh-prod"
+enable_nat_gateway = true

@@ -1,0 +1,10 @@
+# ==========================================
+# Configuración de Variables de Ejemplo
+# Copia este archivo como 'terraform.tfvars' y personaliza los valores
+# ==========================================
+
+aws_region         = "eu-west-1"
+environment        = "dev"
+instance_type      = "t3.micro"
+key_name           = "tu-clave-ssh" # Opcional: SSM permite conexión sin clave
+enable_nat_gateway = true

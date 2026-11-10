@@ -1,6 +1,11 @@
 output "alb_dns_name" {
-  description = "URL publica del Elastic Load Balancer"
+  description = "URL publica del Elastic Load Balancer (Abre esta URL en tu navegador)"
   value       = module.alb.alb_dns_name
+}
+
+output "lambda_function_url" {
+  description = "URL publica directa de la funcion AWS Lambda de prueba"
+  value       = module.lambda.lambda_function_url
 }
 
 output "vpc_id" {

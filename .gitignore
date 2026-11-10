@@ -1,20 +1,43 @@
-# Local .terraform directories
+# --- Terraform Runtime & Cache ---
+**/.terraform/
 **/.terraform/*
-**/.terraform.lock.hcl
+*.tfplan
+*.tfplan.*
+.terraform.lock.hcl
 
-# .tfstate files
+# --- Terraform State Files (CRÍTICO: No subir secretos ni IDs) ---
 *.tfstate
 *.tfstate.*
 **/*.tfstate
 **/*.tfstate.*
 
-# Crash log files
-crash.log
-crash.*.log
-
-# Exclude sensitive tfvars
+# --- Archivos de variables sensibles ---
+*.tfvars
 *.tfvars.json
+!*.tfvars.example
+
+# --- Archivos Override ---
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+
+# --- Certificados, Llaves y Credenciales ---
+*.pem
+*.key
+*.pub
+.aws/
+
+# --- Paquetes generados automáticamente ---
+**/*.zip
+
+# --- Logs y Crashes ---
+crash.log
+crash.*.log
+*.log
+
+# --- Archivos de Sistema y Editores ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

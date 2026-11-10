@@ -14,7 +14,7 @@ module "vpc" {
 
   name                 = "my-vpc-${var.environment}"
   cidr_block           = "10.0.0.0/16"
-  azs                  = ["${var.aws_region}a", "${var.aws_region}b"]
+  azs                  = ["${var.aws_region}a", "${var.aws_region}c"]
   public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
   enable_nat_gateway   = var.enable_nat_gateway
@@ -39,7 +39,19 @@ module "alb" {
   }
 }
 
-# --- 4. Servicio de Cómputo (EC2 100% privadas, SIN IP pública) ---
+# --- 4. Servicio Serverless (Función Lambda de Prueba) ---
+module "lambda" {
+  source = "../../modules/lambda"
+
+  name = "app-lambda-${var.environment}"
+
+  tags = {
+    Terraform   = "true"
+    Environment = var.environment
+  }
+}
+
+# --- 5. Servicio de Cómputo (EC2 con integración Lambda en la web) ---
 module "ec2" {
   source = "../../modules/ec2"
 
@@ -49,7 +61,8 @@ module "ec2" {
   instance_type               = var.instance_type
   key_name                    = var.key_name
   alb_security_group_id       = module.alb.alb_security_group_id
-  associate_public_ip_address = false # Sin IP publica
+  associate_public_ip_address = false
+  lambda_url                  = module.lambda.lambda_function_url
 
   tags = {
     Terraform   = "true"
@@ -57,7 +70,7 @@ module "ec2" {
   }
 }
 
-# --- 5. Servicio de Auto Scaling (Instancias repartidas en las subredes privadas) ---
+# --- 6. Servicio de Auto Scaling (Instancias repartidas en las subredes privadas) ---
 module "autoscaling" {
   source = "../../modules/autoscaling"
 
@@ -76,7 +89,7 @@ module "autoscaling" {
   }
 }
 
-# --- 6. Seguridad e Identidad (IAM: Roles y Grupo para Desarrolladores) ---
+# --- 7. Seguridad e Identidad (IAM: Roles y Grupo para Desarrolladores) ---
 module "iam" {
   source = "../../modules/iam"
 

@@ -37,6 +37,12 @@ variable "associate_public_ip_address" {
   default     = false
 }
 
+variable "lambda_url" {
+  description = "URL de la funcion Lambda para invocarla desde el frontend de la pagina"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Etiquetas comunes"
   type        = map(string)

@@ -1,6 +1,6 @@
 output "alb_dns_name" {
-  description = "Nombre DNS publico del Load Balancer"
-  value       = "http://${aws_lb.this.dns_name}"
+  description = "Nombre DNS publico del Load Balancer (con HTTPS)"
+  value       = "https://${aws_lb.this.dns_name}"
 }
 
 output "alb_arn" {
@@ -17,4 +17,3 @@ output "alb_security_group_id" {
   description = "ID del Security Group del ALB"
   value       = aws_security_group.alb.id
 }
-

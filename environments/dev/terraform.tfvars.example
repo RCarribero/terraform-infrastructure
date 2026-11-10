@@ -1,0 +1,10 @@
+# ==========================================
+# Variables de Desarrollo (Dev)
+# Copia este archivo como 'terraform.tfvars' en environments/dev/
+# ==========================================
+
+aws_region         = "eu-west-1"
+environment        = "dev"
+instance_type      = "t3.micro"
+key_name           = "tu-clave-ssh"
+enable_nat_gateway = true
