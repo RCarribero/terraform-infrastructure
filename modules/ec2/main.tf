@@ -131,7 +131,7 @@ resource "aws_launch_template" "this" {
                 <div class="container">
                   <h1>🛡️ Portal Web de Infraestructura</h1>
                   <div class="tag">Instancia en Subred Privada</div>
-                  <p>Nodo de servicio: <b style="color:#38bdf8;">HOST_PLACEHOLDER</b></p>
+                  <p>Zona de Disponibilidad: <b style="color:#38bdf8;">ZONE_PLACEHOLDER</b> &nbsp;|&nbsp; Instancia: <b style="color:#94a3b8;">INSTANCE_PLACEHOLDER</b></p>
                   
                   <div class="box">
                     <h3>⚡ Servicio Backend Integrado</h3>
@@ -171,8 +171,14 @@ resource "aws_launch_template" "this" {
               </html>
               HTMLEOF
 
-              # Inyectar el hostname real de la instancia
-              sed -i "s/HOST_PLACEHOLDER/$(hostname -f)/g" /var/www/html/index.html
+              # Obtener metadatos seguros de la instancia mediante IMDSv2
+              TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+              AZ=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/availability-zone)
+              INSTANCE_ID=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id)
+
+              # Inyectar Zona de Disponibilidad e ID sin exponer direcciones IP privadas ni hostnames internos
+              sed -i "s/ZONE_PLACEHOLDER/$AZ/g" /var/www/html/index.html
+              sed -i "s/INSTANCE_PLACEHOLDER/$INSTANCE_ID/g" /var/www/html/index.html
               EOF
   )
 

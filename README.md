@@ -185,6 +185,22 @@ asg_name = "app-asg-dev-xxxx"
 vpc_id = "vpc-0123456789abcdef0"
 ```
 
+### 📸 Demostración Visual de la Infraestructura en Vivo
+
+#### 1. Balanceo de Carga Multi-AZ (Round-Robin entre Subredes Privadas)
+El Application Load Balancer distribuye las peticiones HTTPS entre las instancias alojadas en subredes privadas en distintas zonas de disponibilidad:
+
+| Instancia en Subred Privada 1 (`eu-west-1a`) | Instancia en Subred Privada 2 (`eu-west-1c`) |
+| :---: | :---: |
+| ![Instancia Zona A](docs/images/01-load-balancer-zone-a.png) | ![Instancia Zona C](docs/images/02-load-balancer-zone-c.png) |
+
+#### 2. Invocación al Backend Serverless (AWS Lambda)
+Petición asíncrona procesada con éxito mediante Function URL y CORS seguro:
+
+![Invocación Lambda Backend](docs/images/03-serverless-backend-response.png)
+
+---
+
 ### 1. Probar el Balanceador HTTPS y Redirección 301
 Abre la URL segura de `alb_dns_name` (`https://...`) en tu navegador web:
 * Si intentas entrar por `http://`, el balanceador te redirige automáticamente a `https://` con código HTTP 301.
